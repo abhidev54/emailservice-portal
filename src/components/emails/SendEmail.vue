@@ -2,14 +2,25 @@
   <div class="submit-form">
     <div v-if="!submitted">
       <div class="form-group">
-        <label for="title">To</label>
+        <label for="title">To (Email)</label>
         <input
           type="text"
           class="form-control"
-          id="to"
+          id="to_email"
           required
-          v-model="email.to"
-          name="to"
+          v-model="email.to_email"
+          name="to_email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">To (Name)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="to_name"
+          required
+          v-model="email.to_name"
+          name="to_name"
         />
       </div>
 
@@ -65,7 +76,7 @@
 
     <div v-else>
       <h4>You submitted successfully!</h4>
-      <button @click="sendEmail" class="btn btn-success">Send</button>
+      <a href="/sendemail">Send New email</a>
     </div>
   </div>
 </template>
@@ -91,27 +102,22 @@ export default {
   methods: {
     sendEmail() {
       var data = {
-        to: this.email.to,
+        to_email: this.email.to_email,
+        to_name: this.email.to_name,
         from_email: this.email.from_email,
         from_name: this.email.from_name,
         subject: this.email.subject,
-        message: this.email.message,
+        body: this.email.message,
       };
 
       EmailDataService.create(data)
         .then(response => {
-          this.email.id = response.data.id;
-          console.log(response.data);
+          console.log(response);
           this.submitted = true;
         })
         .catch(e => {
           console.log(e);alert(e);
         });
-    },
-    
-    newTutorial() {
-      this.submitted = false;
-      this.email = {};
     }
   }
 };
