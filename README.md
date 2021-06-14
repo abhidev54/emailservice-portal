@@ -3,6 +3,7 @@
 
 # Installation using docker
 docker build -t emailservice_portal .
+
 docker run -it -p 8080:8080 -d --name emailservice-portal-vuejs emailservice_portal
 
 
